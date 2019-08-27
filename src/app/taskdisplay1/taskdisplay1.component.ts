@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from "./task";
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, Validators, FormControl, FormGroup } from "@angular/forms";
 import { Status } from './status';
 @Component({
 selector: 'app-taskdisplay1',
@@ -22,6 +22,7 @@ assigned_to='';
 assigned_date='';
 comments='';
 status='';
+taskreactive:FormGroup;
 arr:Task[]=[
 new Task(1,'create website','14/08/2019','Online room booking','High','keerti','13/08/2019','good design','todo'),
 
@@ -58,21 +59,33 @@ arr1:Status[]=[
 constructor(private modalService: NgbModal,public fb: FormBuilder) { }
 
 ngOnInit() {
+  this.taskreactive=this.fb.group({
+    task_id:new FormControl(),
+    title:new FormControl(),
+    due_date:new FormControl(),
+    desc:new FormControl(),
+    priority:new FormControl(),
+    assigned_to:new FormControl(),
+    assigned_date:new FormControl(),
+    comments:new FormControl(),
+    status:new FormControl()
+  });
 }
 openEdit(content,i){
 console.log(i);
-this.task_id = this.arr[i].task_id;
-this.title= this.arr[i].title;
-this.due_date= this.arr[i].due_date;
-this.desc= this.arr[i].desc;
-this.priority= this.arr[i].priority;
-this.assigned_to= this.arr[i].assigned_to;
-this.assigned_date= this.arr[i].assigned_date;
-this.comments= this.arr[i].comments;
-this.status=this.arr[i].status;
-
-
 this.updatedItem = i;
+this.taskreactive.patchValue({
+  task_id:this.arr[i].task_id,
+  title:this.arr[i].title,
+  due_date:this.arr[i].due_date,
+  desc:this.arr[i].desc,
+  priority:this.arr[i].priority,
+  assigned_to:this.arr[i].assigned_to,
+  assigned_date:this.arr[i].assigned_date,
+  comments:this.arr[i].comments,
+  status:this.arr[i].status
+
+})
 console.log(this.task_id);
 this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
 result => {
@@ -99,15 +112,15 @@ let data = this.updatedItem;
 // console.log(data);
 for (let i = 0; i < this.arr.length; i++) {
 if (i == data) {
-this.arr[i].task_id= this.task_id;
-this.arr[i].title = this.title;
-this.arr[i].due_date = this.due_date;
-this.arr[i].desc = this.desc;
-this.arr[i].priority = this.priority;
-this.arr[i].assigned_to = this.assigned_to;
-this.arr[i].assigned_date = this.assigned_date;
-this.arr[i].comments = this.comments;
-this.arr[i].status=this.status;
+this.arr[i].task_id= this.taskreactive.value.task_id;
+this.arr[i].title = this.taskreactive.value.title;
+this.arr[i].due_date = this.taskreactive.value.due_date;
+this.arr[i].desc = this.taskreactive.value.desc;
+this.arr[i].priority = this.taskreactive.value.priority;
+this.arr[i].assigned_to = this.taskreactive.value.assigned_to;
+this.arr[i].assigned_date = this.taskreactive.value.assigned_date;
+this.arr[i].comments = this.taskreactive.value.comments;
+this.arr[i].status=this.taskreactive.value.status;
 
 
 console.log(this.arr);
