@@ -9,17 +9,27 @@ import { NgbPaginationModule,NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Taskdisplay1Component } from './taskdisplay1/taskdisplay1.component';
 import { LoginComponent } from './login/login.component';
+import { MenuComponent } from './menu/menu.component';
+import { HomeComponent } from './home/home.component';
+import { routing } from './app.routing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskboardsdisplayComponent,
     Taskdisplay1Component,
-    LoginComponent
+    LoginComponent,
+    MenuComponent,
+    HomeComponent,
+
 
   ],
   imports: [
-    BrowserModule,FormsModule,NgbModule,NgbPaginationModule,NgbAlertModule,ReactiveFormsModule
+    // tslint:disable-next-line: max-line-length
+    BrowserModule,FormsModule,NgbModule,NgbPaginationModule,NgbAlertModule,ReactiveFormsModule,routing,BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
